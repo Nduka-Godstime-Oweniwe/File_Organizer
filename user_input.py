@@ -1,8 +1,8 @@
-def user_input(prompt: str,max: int, allowed: str):
+def user_input(prompt: str,max: int, allowed):
     while True:
         try:
             user=input(prompt)
-            if user.lower()==allowed.lower():
+            if user.lower() in allowed:
                 return user.lower()
             user=int(user)
             if not 1<=user<=max:
