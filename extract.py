@@ -1,11 +1,12 @@
 import pathlib
+import re
 def get_root():
     root=pathlib.Path().cwd()
     while root!=root.parent:
         root=root.parent
     return root
 
-def view_folder_file(path,view=True):
+def view(path,view=True):
     files=pathlib.Path(path).iterdir()
     k=1
     result=[]
@@ -14,11 +15,12 @@ def view_folder_file(path,view=True):
             print(f"{str(k)+".":>3} {file.name}")
         result.append(file)
         k+=1
-    if result:
-        return result
-
-def arrange(path):
-    files=view_folder_file(path,False)
+    return result
+    
+def arrange_recursion(original_path,path,banks={},depth=0):
+    files=view(path,False)
+    if len(files)==0:
+        return banks
     bank={
         "Images":{".jpg",".png"},
         "Documents":{".pdf",".pptx",".docx"},
@@ -26,20 +28,30 @@ def arrange(path):
         "Archives":{".zip"},
         "Code":{".html",".py",".css",".js",".go"},        
     }
-    result={}
     for file in files:
+        
         if file.is_file():
             found=False
-            for key,value in bank.items(): 
-                if file.suffix in value:
+            for folder_name,extensions in bank.items():
+                if file.suffix in extensions:
                     found=True
-                    if key in result:
-                        result[key].append(file.name)
+                    if folder_name not in banks:
+                        banks[folder_name]=[str(file)]
                     else:
-                        result[key]=[file.name]
+                        banks[folder_name].append(str(file))
             if not found:
-                if "Others" in result:
-                    result["Others"].append(file.name)
+                if "Others" not in banks:
+                    banks["Others"]=[str(file)]
                 else:
-                    result["Others"]=[file.name]
-    return result
+                    banks["Others"].append(str(file))
+                    
+        else:
+            if depth==0:
+                continue
+            else:
+                banks=arrange_recursion(original_path,str(file),banks,depth-1)
+    return banks
+
+
+
+    
