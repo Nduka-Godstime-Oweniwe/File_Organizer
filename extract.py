@@ -19,7 +19,7 @@ def view(path,view=True):
         k+=1
     return result
     
-def arrange_recursion(original_path,path,banks={},depth=0):
+def arrange(original_path,path,banks={},depth=0):
     files=view(path,False)
     if len(files)==0:
         return banks
@@ -52,7 +52,7 @@ def arrange_recursion(original_path,path,banks={},depth=0):
             if depth==0:
                 continue
             else:
-                banks=arrange_recursion(original_path,str(file),banks,depth-1)
+                banks=arrange(original_path,str(file),banks,depth-1)
     return banks
 
 

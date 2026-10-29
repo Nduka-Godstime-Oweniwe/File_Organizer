@@ -4,6 +4,15 @@ from datetime import datetime
 import time
 
 
+def organise(path,depth):
+    file_dict=extract.arrange(path,path,{},depth)
+    preview(file_dict)
+    user=input("Type 'apply' to apply changes: ")
+    if user=="apply":
+        move(file_dict,str(path))
+   
+    input()
+
 def preview(file_dict):
     files=0
     categories=0
@@ -43,11 +52,3 @@ def move(file_dict,path: str):
     data.append((str(now),moves))
     dald.dump_data("test.json",data)
 
-def organise(path,depth):
-    file_dict=extract.arrange_recursion(path,path,{},depth)
-    preview(file_dict)
-    user=input("Type 'apply' to apply changes: ")
-    if user=="apply":
-        move(file_dict,str(path))
-   
-    input()
