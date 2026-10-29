@@ -6,6 +6,7 @@ def get_history(file_name):
     k=1
     if not histories:
         print("Ooops! No history yet")
+        input("Press Enter to go back")
         return
     for history in histories:
         date=history[0]

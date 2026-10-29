@@ -1,5 +1,5 @@
 import pathlib
-import re
+
 def get_root():
     root=pathlib.Path().cwd()
     while root!=root.parent:
@@ -11,6 +11,8 @@ def view(path,view=True):
     k=1
     result=[]
     for file in files:
+        if file.name.startswith("."):
+            continue
         if view:    
             print(f"{str(k)+".":>3} {file.name}")
         result.append(file)
@@ -26,7 +28,8 @@ def arrange_recursion(original_path,path,banks={},depth=0):
         "Documents":{".pdf",".pptx",".docx"},
         "Audio":{".mp3",".wav"},
         "Archives":{".zip"},
-        "Code":{".html",".py",".css",".js",".go"},        
+        "Code":{".html",".py",".css",".js",".go"},  
+        "Videos":{".mp4",".mkv",".avi"},      
     }
     for file in files:
         
