@@ -1,4 +1,6 @@
 import extract, shutil, pathlib, os
+import dump_and_load as dald
+from datetime import datetime
 
 def preview(file_dict):
     files=0
@@ -14,6 +16,7 @@ def preview(file_dict):
     print(f"Total: {files} files, {categories} categories")
         
 def move(file_dict,path: str):
+    moves={}
     for key,value in file_dict.items():
         try:
             pathlib.Path(path+f"/{key}").mkdir()
@@ -23,10 +26,17 @@ def move(file_dict,path: str):
             slash="/"
             if os.name=="nt":
                 slash="\\"
-
             file_path=path+slash+file_name
             destination=path+slash+key
+            previous_location=path
+            new_location_of_file=path+slash+key+slash+file_name
+            
+            moves[new_location_of_file]=previous_location
             shutil.move(file_path,destination)
+    data=dald.load_data("test.json")
+    now=datetime.now()
+    data.append((str(now),moves))
+    dald.dump_data("test.json",data)
 
 def organise(path):
     file_dict=extract.arrange(path)
