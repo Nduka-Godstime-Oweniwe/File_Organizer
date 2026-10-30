@@ -1,4 +1,4 @@
-def user_input(prompt: str,max: int, allowed):
+def user_input(prompt: str,max: int, allowed=()):
     while True:
         try:
             user=input(prompt)

@@ -26,6 +26,11 @@ while True:
             current=current.parent
             continue
     if user_folder=="organise":
+        if current==pathlib.Path().cwd():
+            print("Haba now!! You wan still arrange folder wey dey help you organize files")
+            current=current.parent
+            input("Press enter to go back joor")
+            continue
         depth=user_input.user_input("Enter depth of Arrangement\n1 for only current folder\n2 for both current and subfolders\n3 for both current, subfolders,subsubfolders and so on: ",100,())
         organise.organise(current,depth-1)
         
